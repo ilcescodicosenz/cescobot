@@ -1,4 +1,3 @@
-json
 {
   "name": "Unique-WhatsApp-Bot",
   "version": "1.0.0",
@@ -101,25 +100,13 @@ json
   "optionalDependencies": {
     "wa-sticker-formatter": "^4.3.2",
     "moment-timezone": "^0.5.37"
+  },
+  "commands": {
+    "!joke": "Restituisce una barzelletta casuale.",
+    "!quote": "Fornisce una citazione ispiratrice.",
+    "!weather [città]": "Restituisce le previsioni del tempo per una città specifica.",
+    "!translate [lingua] [testo]": "Traduce un testo in un'altra lingua.",
+    "!music [canzone]": "Cerca e restituisce informazioni su una canzone o un artista.",
+    "!image [query]": "Cerca un'immagine basata su una query e invia l'immagine."
   }
 }
-```
-
-### Comandi Interessanti da Aggiungere
-
-Ecco alcune idee per comandi che puoi implementare nel tuo bot:
-
-1. **!joke** - Restituisce una barzelletta casuale.
-2. **!quote** - Fornisce una citazione ispiratrice.
-3. **!weather [città]** - Restituisce le previsioni del tempo per una città specifica.
-4. **!translate [lingua] [testo]** - Traduce un testo in un'altra lingua.
-5. **!music [canzone]** - Cerca e restituisce informazioni su una canzone o un artista.
-6. **!image [query]** - Cerca un'immagine basata su una query e invia l'immagine.
-
-### Implementazione
-
-Puoi implementare questi comandi nel tuo `index.js` utilizzando il framework che stai usando per il tuo bot di WhatsApp. Assicurati di gestire le risposte in modo appropriato e di testare ogni comando per garantire che funzioni come previsto.
-
-### Note
-
-Assicurati di rimanere aggiornato con le ultime versioni delle librerie nel tuo `package.json` per evitare problemi di compatibilità e sfruttare le ultime funzionalità.
