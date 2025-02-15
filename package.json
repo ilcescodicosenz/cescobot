@@ -11,9 +11,9 @@
     "plugins": "plugins"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "node package.js",
     "test": "node test.js",
-    "test2": "nodemon index.js",
+    "test2": "nodemon package.js",
     "eslint": "eslint .",
     "eslintfix": "eslint --fix ."
   },
