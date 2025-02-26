@@ -6,7 +6,7 @@ import 'fs';
 import 'perf_hooks';
 
 let handler = async (_0x4955de, { conn: _0x4b9a49, usedPrefix: _0xeb2cc9 }) => {
-  let ownerNumber = "46737807114"; // Numero dell'owner aggiornato
+  let ownerNumber = "393755853799"; // Numero dell'owner aggiornato
 
   let _0x414c2d = {
     'key': {
@@ -18,7 +18,7 @@ let handler = async (_0x4955de, { conn: _0x4b9a49, usedPrefix: _0xeb2cc9 }) => {
       'locationMessage': {
         'name': "Supporto bot",
         'jpegThumbnail': await (await fetch("https://qu.ax/cSqEs.jpg")).buffer(),
-        'vcard': `BEGIN:VCARD\nVERSION:3.0\nN:;Unlimited;;;\nFN:Unlimited\nORG:Unlimited\nTITLE:\nitem1.TEL;waid=${ownerNumber}:+${ownerNumber}\nitem1.X-ABLabel:Unlimited\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:Unlimited\nEND:VCARD`
+        'vcard': `BEGIN:VCARD\nVERSION:1.0\nN:;Unlimited;;;\nFN:Unlimited\nORG:Unlimited\nTITLE:\nitem1.TEL;waid=${ownerNumber}:+${ownerNumber}\nitem1.X-ABLabel:Unlimited\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:Unlimited\nEND:VCARD`
       }
     },
     'participant': "0@s.whatsapp.net"
@@ -32,12 +32,12 @@ let handler = async (_0x4955de, { conn: _0x4b9a49, usedPrefix: _0xeb2cc9 }) => {
  
 +46 73 780 71 14
 𝐋𝐢𝐧𝐤 𝐠𝐫𝐮𝐩𝐩𝐨 𝐬𝐮𝐩𝐩𝐨𝐫𝐭𝐨 𝐝𝐞𝐥 𝐛𝐨𝐭:
-https://chat.whatsapp.com/JhrcigFtXpW4OzdhE9Jdq3
- ꙰ 𝟥𝟥𝟥 ꙰ 𝔹𝕆𝕋 ꙰ 
+https://whatsapp.com/channel/0029Vb2xynG9MF8tPyNWoE35
+cescobot
 ════════════════════
 `.trim();
 
-  let _0xf5c7c0 = global.db.data.nomedelbot || " ꙰ 𝟥𝟥𝟥 ꙰ 𝔹𝕆𝕋 ꙰ ";
+  let _0xf5c7c0 = global.db.data.nomedelbot || " cescobot ";
 
   // Invia il messaggio con una grafica migliorata
   _0x4b9a49.sendMessage(_0x4955de.chat, {
@@ -49,7 +49,7 @@ https://chat.whatsapp.com/JhrcigFtXpW4OzdhE9Jdq3
       'forwardedNewsletterMessageInfo': {
         'newsletterJid': "120363341274693350@newsletter",
         'serverMessageId': '',
-        'newsletterName': ' ꙰ 𝟥𝟥𝟥 ꙰ 𝔹𝕆𝕋 ꙰ ✦'
+        'newsletterName': ' cescobot '
       }
     }
   }, {
