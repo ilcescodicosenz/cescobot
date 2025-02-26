@@ -48,7 +48,6 @@ async function handler(m, { isBotAdmin, isOwner, text, conn }) {
 }
 
 handler.command = ['numero']; // Comando attivabile con ".numero"
-
 handler.admin = true;
 
 export default handler;

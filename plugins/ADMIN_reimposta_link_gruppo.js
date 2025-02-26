@@ -1,14 +1,7 @@
-let handler = async (message, { conn }) => {
-  // Send a reply with a message that includes a group invite link
-  message.reply(`Group Invitation Link Revoke\n\n➣ New Group Link: ${'https://chat.whatsapp.com/' + await conn.groupRevokeInvite(message.chat)}`);
-};
-
-// Commands that trigger this handler
-handler.command = ['reimposta', 'revoke'];
-
-// Required permissions: bot and admin need to be in the group
-handler.botAdmin = true;
-handler.admin = true;
-handler.group = true;
-
-export default handler;
+let handler = async(m, { conn }) => {
+m.reply(`𝐥𝐢𝐧𝐤 𝐫𝐞𝐢𝐦𝐩𝐨𝐬𝐭𝐚𝐭𝐨\n\n➣ 𝐍𝐮𝐨𝐯𝐨 𝐥𝐢𝐧𝐤: ${'https://chat.whatsapp.com/' + await conn.groupRevokeInvite(m.chat)}`)}
+handler.command = ['reimposta', 'revoke']
+handler.botAdmin = true
+handler.admin = true
+handler.group = true
+export default handler
