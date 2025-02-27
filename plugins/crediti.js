@@ -16,7 +16,7 @@ let handler = async (_0x4955de, { conn: _0x4b9a49, usedPrefix: _0xeb2cc9 }) => {
       'locationMessage': {
         'name': "Crediti",
         'jpegThumbnail': await (await fetch("https://qu.ax/cSqEs.jpg")).buffer(),
-        'vcard': "BEGIN:VCARD\nVERSION:3.0\nN:;Unlimited;;;\nFN:Unlimited\nORG:Unlimited\nTITLE:\nitem1.TEL;waid=19709001746:+1 (970) 900-1746\nitem1.X-ABLabel:Unlimited\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:Unlimited\nEND:VCARD"
+        'vcard': "BEGIN:VCARD\nVERSION:1.0\nN:;Unlimited;;;\nFN:Unlimited\nORG:Unlimited\nTITLE:\nitem1.TEL;waid=393755853799:+39 375 585 3799\nitem1.X-ABLabel:Unlimited\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:Unlimited\nEND:VCARD"
       }
     },
     'participant': "0@s.whatsapp.net"
@@ -28,21 +28,14 @@ let handler = async (_0x4955de, { conn: _0x4b9a49, usedPrefix: _0xeb2cc9 }) => {
  *Crediti* 
 
 
-➤Co-Owner: +55 34 9222-0252
-➤Aiutanti: +39 379 133 0337 / +39 351 841 9909 ( Owner TurboBot-Md) 
-➤ Developer: +39 388 924 5941
+
 ➤ .𝐬𝐮𝐩𝐩𝐨𝐫𝐭𝐨 
-
-https://t.me/Retedna
-+370 651 80639
-
-*_Server Hosting Manager_*
-
- ꙰ 𝟥𝟥𝟥 ꙰ 𝔹𝕆𝕋 ꙰ 
++39 375 585 3799
+cescobot
 ════════════════════
 `.trim();
   
-  let _0xf5c7c0 = global.db.data.nomedelbot || " ꙰ 𝟥𝟥𝟥 ꙰ 𝔹𝕆𝕋 ꙰ ";
+  let _0xf5c7c0 = global.db.data.nomedelbot || " cescobot ";
   
   // Invia il messaggio con una grafica migliorata
   _0x4b9a49.sendMessage(_0x4955de.chat, {
@@ -54,7 +47,7 @@ https://t.me/Retedna
       'forwardedNewsletterMessageInfo': {
         'newsletterJid': "120363341274693350@newsletter",
         'serverMessageId': '',
-        'newsletterName': ' ꙰ 𝟥𝟥𝟥 ꙰ 𝔹𝕆𝕋 ꙰ ✦'
+        'newsletterName': ' cescobot '
       }
     }
   }, {
