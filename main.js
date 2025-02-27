@@ -243,17 +243,6 @@ if (opts['server']) (await import('./server.js')).default(global.conn, PORT);
    Ninguno es mejor que tilin god
         - atte: sk1d             */
 
-function clearTmp() {
-  const tmp = [join(__dirname, './tmp')];
-  const filename = [];
-  tmp.forEach((dirname) => readdirSync(dirname).forEach((file) => filename.push(join(dirname, file))));
-  return filename.map((file) => {
-    const stats = statSync(file);
-    if (stats.isFile() && (Date.now() - stats.mtimeMs >= 1000 * 60 * 3)) return unlinkSync(file); // 3 minutes
-    return false;
-  });
-}
-
 function purgeSession() {
 let prekey = []
 let directorio = readdirSync("./333BotSession")
@@ -292,7 +281,22 @@ const oneHourAgo = Date.now() - (60 * 60 * 1000)
 directories.forEach(dir => {
 readdirSync(dir, (err, files) => {
 if (err) throw err
-files.forEach(file => {
+files.forEacfunction clearTmp() {
+  const tmpDir = join(__dirname, './tmp');
+  if (!fs.existsSync(tmpDir)) {
+    console.error(`Directory ${tmpDir} does not exist.`);
+    return; // Exit early if the directory doesn't exist.
+  }
+  const files = readdirSync(tmpDir);
+  files.forEach((file) => {
+    const filePath = join(tmpDir, file);
+    const stats = statSync(filePath);
+    if (stats.isFile() && (Date.now() - stats.mtimeMs >= 1000 * 60 * 3)) {
+      unlinkSync(filePath); // Delete old files
+    }
+  });
+}
+h(file => {
 const filePath = path.join(dir, file)
 stat(filePath, (err, stats) => {
 if (err) throw err;
