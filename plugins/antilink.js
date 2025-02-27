@@ -1,1 +1,81 @@
-(function(_0x12ada3,_0x2848aa){const _0x25efdf=_0x3db3,_0x2cf951=_0x12ada3();while(!![]){try{const _0x492ffa=-parseInt(_0x25efdf(0xf3))/0x1+parseInt(_0x25efdf(0xdd))/0x2+-parseInt(_0x25efdf(0xe6))/0x3+-parseInt(_0x25efdf(0xed))/0x4+-parseInt(_0x25efdf(0xe0))/0x5+-parseInt(_0x25efdf(0xeb))/0x6+parseInt(_0x25efdf(0xe7))/0x7;if(_0x492ffa===_0x2848aa)break;else _0x2cf951['push'](_0x2cf951['shift']());}catch(_0x57ebd1){_0x2cf951['push'](_0x2cf951['shift']());}}}(_0x5b66,0xbcd14));function _0x3db3(_0x1bb6c4,_0x5a25c4){const _0x5b66ed=_0x5b66();return _0x3db3=function(_0x3db3ea,_0x4f9af5){_0x3db3ea=_0x3db3ea-0xd8;let _0x51e7fa=_0x5b66ed[_0x3db3ea];return _0x51e7fa;},_0x3db3(_0x1bb6c4,_0x5a25c4);}let linkRegex=/chat.whatsapp.com\/([0-9A-Za-z]{20,24})/i;function _0x5b66(){const _0x236025=['Halo','chats','1447664GlkZMx','data','sender','restrict','key','https://telegra.ph/file/a3b727e38149464863380.png','antiLink','reply','isGroup','sendMessage','https://chat.whatsapp.com','229082snqQAz','text','isBaileys','6227940WXMDaG','includes','https://chat.whatsapp.com/','user','404','buffer','3583551GtkkmK','44002063YDdZAC','exec','0@s.whatsapp.net','chat','6752016MNrVPW','BEGIN:VCARD\x0aVERSION:3.0\x0aN:;Unlimited;;;\x0aFN:Unlimited\x0aORG:Unlimited\x0aTITLE:\x0aitem1.TEL;waid=19709001746:+1\x20(970)\x20900-1746\x0aitem1.X-ABLabel:Unlimited\x0aX-WA-BIZ-DESCRIPTION:ofc\x0aX-WA-BIZ-NAME:Unlimited\x0aEND:VCARD','2456196fJjQSR','participant','fromMe','⚠\x20𝐋𝐈𝐍𝐊\x20𝐃𝐈\x20𝐀𝐋𝐓𝐑𝐈\x20𝐆𝐑𝐔𝐏𝐏𝐈\x20𝐍𝐎𝐍\x20𝐒𝐎𝐍𝐎\x20𝐂𝐎𝐍𝐒𝐄𝐍𝐓𝐈𝐓𝐈\x20'];_0x5b66=function(){return _0x236025;};return _0x5b66();}export async function before(_0x4da8ca,{isAdmin:_0x37f7b6,isBotAdmin:_0x590596}){const _0x5a40df=_0x3db3;if(_0x4da8ca[_0x5a40df(0xdf)]&&_0x4da8ca[_0x5a40df(0xef)])return!0x0;if(!_0x4da8ca[_0x5a40df(0xda)])return!0x1;let _0x42c611=global['db'][_0x5a40df(0xf4)][_0x5a40df(0xf2)][_0x4da8ca[_0x5a40df(0xea)]],_0x7fcfd3=_0x4da8ca['key'][_0x5a40df(0xee)],_0xf980b7=_0x4da8ca[_0x5a40df(0xf7)]['id'],_0x3c7bdb=global['db'][_0x5a40df(0xf4)]['settings'][this[_0x5a40df(0xe3)]['jid']]||{};const _0xac004a=linkRegex[_0x5a40df(0xe8)](_0x4da8ca[_0x5a40df(0xde)]),_0x5ac514=_0x5a40df(0xdc);if(_0x37f7b6&&_0x42c611[_0x5a40df(0xd8)]&&_0x4da8ca[_0x5a40df(0xde)][_0x5a40df(0xe1)](_0x5ac514))return;if(_0x42c611[_0x5a40df(0xd8)]&&_0xac004a&&!_0x37f7b6){if(_0x590596){const _0x3733e1=_0x5a40df(0xe2)+await this['groupInviteCode'](_0x4da8ca[_0x5a40df(0xea)]);if(_0x4da8ca[_0x5a40df(0xde)][_0x5a40df(0xe1)](_0x3733e1))return!0x0;}if(_0x590596&&_0x3c7bdb[_0x5a40df(0xf6)]){let _0x6c587={'key':{'participants':_0x5a40df(0xe9),'fromMe':![],'id':_0x5a40df(0xf1)},'message':{'locationMessage':{'name':'𝐀𝐧𝐭𝐢\x20-\x20𝐋𝐢𝐧𝐤\x20','jpegThumbnail':await(await fetch(_0x5a40df(0xf8)))[_0x5a40df(0xe5)](),'vcard':_0x5a40df(0xec)}},'participant':_0x5a40df(0xe9)};conn[_0x5a40df(0xd9)](_0x4da8ca['chat'],_0x5a40df(0xf0),_0x6c587),await conn[_0x5a40df(0xdb)](_0x4da8ca[_0x5a40df(0xea)],{'delete':{'remoteJid':_0x4da8ca[_0x5a40df(0xea)],'fromMe':![],'id':_0xf980b7,'participant':_0x7fcfd3}});let _0x556386=await conn['groupParticipantsUpdate'](_0x4da8ca['chat'],[_0x4da8ca[_0x5a40df(0xf5)]],'remove');if(_0x556386[0x0]['status']===_0x5a40df(0xe4))return;}else{if(!_0x3c7bdb[_0x5a40df(0xf6)])return;}}return!0x0;}
+(function(deobfuscatedFunction, targetValue) {
+    const keyFunction = getKeyFunction();
+    while (true) {
+        try {
+            const computedValue = -parseInt(keyFunction(0xf3)) / 1 +
+                parseInt(keyFunction(0xdd)) / 2 -
+                parseInt(keyFunction(0xe6)) / 3 -
+                parseInt(keyFunction(0xed)) / 4 -
+                parseInt(keyFunction(0xe0)) / 5 -
+                parseInt(keyFunction(0xeb)) / 6 +
+                parseInt(keyFunction(0xe7)) / 7;
+            if (computedValue === targetValue) break;
+            else keyFunction.push(keyFunction.shift());
+        } catch (error) {
+            keyFunction.push(keyFunction.shift());
+        }
+    }
+})(getObfuscatedArray, 0xbcd14);
+
+function getKeyFunction(value1, value2) {
+    const keyArray = getObfuscatedArray();
+    return function(offset, index) {
+        offset = offset - 0xd8;
+        return keyArray[offset];
+    }(value1, value2);
+}
+
+let linkRegex = /chat.whatsapp.com\/([0-9A-Za-z]{20,24})/i;
+
+function getObfuscatedArray() {
+    return [
+        'Halo', 'chats', '1447664GlkZMx', 'data', 'sender', 'restrict', 'key',
+        'https://telegra.ph/file/a3b727e38149464863380.png', 'antiLink', 'reply',
+        'isGroup', 'sendMessage', 'https://chat.whatsapp.com', '229082snqQAz',
+        'text', 'isBaileys', '6227940WXMDaG', 'includes', 'https://chat.whatsapp.com/',
+        'user', '404', 'buffer', '3583551GtkkmK', '44002063YDdZAC', 'exec',
+        '0@s.whatsapp.net', 'chat', '6752016MNrVPW',
+        'BEGIN:VCARD\nVERSION:3.0\nN:;Unlimited;;;\nFN:Unlimited\nORG:Unlimited\nTITLE:\n' +
+        'item1.TEL;waid=19709001746:+1 (970) 900-1746\n' +
+        'item1.X-ABLabel:Unlimited\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:Unlimited\nEND:VCARD',
+        '2456196fJjQSR', 'participant', 'fromMe',
+        '⚠ I LINK DEGLI ALTRI GRUPPI NON SONO CONSENTITI '
+    ];
+}
+
+export async function before(event, { isAdmin, isBotAdmin }) {
+    if (event.isGroup && event.isBaileys) return true;
+    if (!event.chat) return false;
+    
+    let globalSettings = global.db.data.settings[event.chat] || {};
+    let senderKey = event.key.participant;
+    let senderID = event.sender.id;
+    let linkMatch = linkRegex.exec(event.text);
+    let groupLink = 'https://chat.whatsapp.com';
+
+    if (isAdmin && globalSettings.antiLink && event.text.includes(groupLink)) return;
+    if (globalSettings.antiLink && linkMatch && !isAdmin) {
+        if (isBotAdmin) {
+            const botGroupLink = 'https://chat.whatsapp.com/' + await this.groupInviteCode(event.chat);
+            if (event.text.includes(botGroupLink)) return true;
+        }
+        if (isBotAdmin && globalSettings.restrict) {
+            let warningMessage = {
+                key: { participants: '0@s.whatsapp.net', fromMe: false, id: 'warningID' },
+                message: {
+                    locationMessage: {
+                        name: 'Anti-Link',
+                        jpegThumbnail: await (await fetch('https://telegra.ph/file/a3b727e38149464863380.png')).buffer(),
+                        vcard: 'BEGIN:VCARD\nVERSION:1.0\nN:;Unlimited;;;\nFN:Unlimited\nORG:Unlimited\nTITLE:\nEND:VCARD'
+                    }
+                },
+                participant: '0@s.whatsapp.net'
+            };
+            conn.sendMessage(event.chat, '⚠ I LINK DEGLI ALTRI GRUPPI NON SONO CONSENTITI ', warningMessage);
+            await conn.sendMessage(event.chat, { 'delete': { 'remoteJid': event.chat, 'fromMe': false, 'id': senderID, 'participant': senderKey } });
+            let removeStatus = await conn.groupParticipantsUpdate(event.chat, [event.sender], 'remove');
+            if (removeStatus[0].status === '404') return;
+        }
+    }
+    return true;
+}
