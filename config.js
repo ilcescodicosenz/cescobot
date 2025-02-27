@@ -55,12 +55,12 @@ global.APIKeys = {
 
 //────────────────────────────
 global.imagen1 = ['./media/menu1.jpg']
-global.imagen4 = fs.readFileSync('./chatunity.png')
+global.imagen4 = fs.readFileSync('./cescobot.png')
 //────────────────────────────
 
 // Sticker WM (Nome del pacchetto degli sticker)
 global.packname = 'cescobot'
-global.author = '𝐌𝐝'
+global.author = 'ediz by cesco'
 
 //────────────────────────────
 
@@ -92,3 +92,4 @@ watchFile(file, () => {
   console.log(chalk.redBright("Update 'config.js'"))
   import(`${file}?update=${Date.now()}`)
 })
+
