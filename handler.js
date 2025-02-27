@@ -35,142 +35,103 @@ export async function handler(chatUpdate) {
         m = smsg(this, m) || m
         if (!m)
             return
-      m.exp = 0;
-      m.money = false;
-      m.limit = false;
+        m.exp = 0
+        m.limit = false
         try {
             // TODO: use loop to insert data instead of this
-          let user = global.db.data.users[m.sender]
-          if (typeof user !== 'object')
-              global.db.data.users[m.sender] = {}
-          if (user) {
-              if (!('registered' in user)) user.registered = false
-if (!user.registered) {
-if (!('name' in user)) user.name = m.name
-if (!isNumber(user.age)) user.age = '👶🏼🍼'
-if (!('gender' in user)) user.gender = ''
-if (!isNumber(user.regTime)) user.regTime = -1
-}
-              if (!isNumber(user.messaggi)) user.messaggi = 0
-              if (!isNumber(user.command)) user.command = 0
-              if (!isNumber(user.blasphemy)) user.blashpemy = 0
-              if (!isNumber(user.msg)) user.msg = {}
-              if (!isNumber(user.exp)) user.exp = 0
-              if (!isNumber(user.money)) user.money = 0 
-              if (!isNumber(user.lvl)) user.lvl = 0
-            if (!isNumber(user.carne)) user.carne = 0
-              if (!isNumber(user.pollo)) user.pollo = 0
-            if (!isNumber(user.ossa)) user.ossa = 0
-            if (!isNumber(user.pelliccia)) user.pelliccia = 0
-              if (!isNumber(user.warn)) user.warn = 0
-              if (!isNumber(user.warnlink)) user.warnlink = 0
-              if (!isNumber(user.joincount)) user.joincount = 2   
-              if (!isNumber(user.limit)) user.limit = 20    	       
-              if (!isNumber(user.grattaevinci)) user.grattaevinci = 0
-              if (!isNumber(user.villa)) user.villa = 0
-              if (!isNumber(user.casa)) user.casa = 0
-                if (!isNumber(user.chiavi)) user.chiavi = 0
-                if (!isNumber(user.bank)) user.bank = 0
-                if (!isNumber(user.lvl)) user.lvl = 0
-                if (!user.datafurto) user.datafurto = 'assente'
-                if(!user.ultimofurto) user.ultimofurto = 0
-                if (!isNumber(user.furti)) user.furti = 0
-                if (!isNumber(user.rubati)) user.rubati = 0
-                if (!isNumber(user.premdays)) user.premdays = 0
-                if (!isNumber(user.ultimoprelievo)) user.ultimoprelievo = 0
-                if (!isNumber(user.ultimodeposito)) user.ultimodeposito = 0
-                if (!('sposato' in user)) user.sposato = false
-                if (!('richiestally' in user)) user.richiestally = ['',1]
-                if (!('divoziato' in user)) user.divorziato = false
-                if (!('coniuge' in user)) user.coniuge = ""
-                if (!('ex' in user)) user.ex = ""
-              if (!('proposals' in user)) user.proposals = {}
-                if (!('pendmarry' in user)) user.pendmarry = []
-                if (!('pending' in user)) user.pending = []
-                if (!('amici' in user)) user.amici = []
-                if (!('ultimoreclamo' in user)) user.ultimoreclamo = ['10:10 - 20/20/2020',0]
-                if (!('comandi' in user)) user.comandi=[0,0,0]
-                if (!('casse' in user)) user.casse = [0,0,0,0,0,0]
-                if (!isNumber(user.maxblasph)) user.maxblasph = 2050
-              if (!('instagram' in user)) user.instagram = m.instagram
-              if (!('muto' in user)) user.muto = false
-          } else global.db.data.users[m.sender] = {
-                  messaggi: 0,
-                  command: 0,
-                  blasphemy: 0,
-                  money: 0,
-                  bank: 0,
-                  lvl: 0,
-                  ossa: 0,
-                  carne: 0,
-                  pelliccia: 0,
-                  grattaevinci: 0,
-                  chiavi: 0,
-                  casa: 0,
-                  villa: 0,
-                  warn: 0,
-                  warnlink: 0,
-                  muto: false,
-                  registered: false,
-                  age: '👶🏼🍼',                                   regTime: -1,
-                  gender: '',
-                  name: m.name,
-              }
-          let chat = global.db.data.chats[m.chat]
-          if (typeof chat !== 'object')
-              global.db.data.chats[m.chat] = {}
-          if (chat) {
-              if (!('isBanned' in chat)) chat.isBanned = false
-              if (!('welcome' in chat)) chat.welcome = true
-              if (!('detect' in chat)) chat.detect = true
-              if (!('sWelcome' in chat)) chat.sWelcome = ''
-              if (!('sBye' in chat)) chat.sBye = ''
-              if (!('sPromote' in chat)) chat.sPromote = ''
-              if (!('sDemote' in chat)) chat.sDemote = ''
-              if (!('antielimina' in chat)) chat.antielimina = false
-              if (!('antibot' in chat)) chat.antibot = true
-              if (!('bestemmiometro' in chat)) chat.bestemmiometro = true
-              if (!('antilinkgp' in chat)) chat.antilinkgp = true
-              if (!('antilinkig' in chat)) chat.antilinkig = false
-              if (!('antilinktg' in chat)) chat.antilinktg = false
-              if (!('antilinktk' in chat)) chat.antilinktk = false
-              if (!('antiSpam' in chat)) chat.antiSpam = true
-              if (!('antiviewonce' in chat)) chat.antiviewonce = false
-              if (!('antiTraba' in chat)) chat.antiTraba = true
-              if (!('antiArab' in chat)) chat.antiArab = false
-              if (!('modoadmin' in chat)) chat.modoadmin = true
-              if (!isNumber(chat.expired)) chat.expired = 0
-              if (!isNumber(chat.messaggi)) chat.messaggi = 0
-              if (!isNumber(chat.blasphemy)) chat.blashpemy = 0
-              if (!('name' in chat)) chat.name = m.name
-              if (!('name' in chat)) chat.name = this.getName(m.chat)
-              if (!('rules' in chat))
-chat.rules = ''
-          } else
-              global.db.data.chats[m.chat] = {
-                  name: this.getName(m.chat),
-                  isBanned: false,
-                  welcome: true,
-                  detect: true,
-                  sWelcome: '',
-                  sBye: '',
-                  sPromote: '',
-                  sDemote: '',
-                  antielimina: false,
-                  antibot: true,
-                  bestemmiometro: true,
-                  antiLinkgp: true,
-                  antilinkig: false,
-                  antilinktg: false,
-                  antilinktk: false,
-                  antiviewonce: false,
-                  antiToxic: false,
-                  antiTraba: true,
-                  antiArab: false,
-                  modoadmin: true,
-                  name: m.name,
-                  rules: '',
-              }
+            let user = global.db.data.users[m.sender]
+            if (typeof user !== 'object')
+                global.db.data.users[m.sender] = {}
+            if (user) {
+                if (!isNumber(user.messaggi)) user.messaggi = 0
+                if (!isNumber(user.blasphemy)) user.blasphemy = 0
+                if (!isNumber(user.msg)) user.msg = {}
+                if (!isNumber(user.exp)) user.exp = 0
+                if (!isNumber(user.money)) user.money = 0 
+                if (!isNumber(user.warn)) user.warn = 0
+                if (!isNumber(user.joincount)) user.joincount = 2   
+                if (!isNumber(user.limit)) user.limit = 20
+                if (!('premium' in user)) user.premium = false
+                if (!isNumber(user.premiumDate)) user.premiumDate = -1
+                if (!isNumber(user.tprem)) user.tprem = 0
+                if (!user.premium) user.premium = false
+                if (!user.premium) user.premiumTime = 0
+                if (!('name' in user)) user.name = m.name
+                if (!('muto' in user)) user.muto = false
+            } else
+                global.db.data.users[m.sender] = {
+                    messaggi: 0,
+                }
+            let chat = global.db.data.chats[m.chat]
+            if (typeof chat !== 'object')
+                global.db.data.chats[m.chat] = {}
+            if (chat) {
+                if (!('isBanned' in chat)) chat.isBanned = false
+                if (!('welcome' in chat)) chat.welcome = true
+                if (!('detect' in chat)) chat.detect = true
+                if (!('sWelcome' in chat)) chat.sWelcome = ''
+                if (!('sBye' in chat)) chat.sBye = ''
+                if (!('sPromote' in chat)) chat.sPromote = ''
+                if (!('sDemote' in chat)) chat.sDemote = ''
+                if (!('delete' in chat)) chat.delete = false
+                if (!('gpt' in chat)) chat.gpt = false
+                if (!('bestemmiometro' in chat)) chat.bestemmiometro = true
+                if (!('antielimina' in chat)) chat.antielimina = true
+                if (!('antiLink' in chat)) chat.antiLink = true
+                if (!('antiinsta' in chat)) chat.antiinsta = false
+                if (!('antitiktok' in chat)) chat.antitiktok = false
+                if (!('antiLink2' in chat)) chat.antiLink2 = false
+                if (!('antiviewonce' in chat)) chat.antiviewonce = false
+                if (!('antiTraba' in chat)) chat.antiTraba = true
+                if (!('antiArab' in chat)) chat.antiArab = true
+                if (!('modoadmin' in chat)) chat.modoadmin = false
+                if (!('antiporno' in chat)) chat.antiporno = true
+                if (!isNumber(chat.expired)) chat.expired = 0
+                if (!isNumber(chat.messaggi)) chat.messaggi = 0
+                if (!isNumber(chat.blasphemy)) chat.blasphemy = 0
+                if (!('name' in chat)) chat.name = m.name
+                if (!('name' in chat)) chat.name = this.getName(m.chat)
+            } else
+                global.db.data.chats[m.chat] = {
+                    name: this.getName(m.chat),
+                    isBanned: false,
+                    welcome: true,
+                    detect: true,
+                    sWelcome: '',
+                    sBye: '',
+                    sPromote: '',
+                    sDemote: '',
+                    delete: false,
+                    modohorny: false,
+                    gpt: true,
+                    bestemmiometro: true,
+                    antiporno: true,
+                    antielimina: false,
+                    audios: false,
+                    antiLinkfast: true,
+                    antiLink: true,
+                    antiLink2: false,
+                    antilinkbase: false,
+                    antitiktokbase: false,
+                    antiinsta: true,
+                    antitiktok: true,
+                    antiviewonce: false,
+                    antiToxic: false,
+                    antiTraba: true,
+                    antiArab: true,
+                    modoadmin: false,
+                    antiPorno: true,
+                    muto: false,
+                    expired: 0,
+                    messaggi: 0,
+                    blasphemy: 0,
+                    premium: false,
+                    premiumTime: 0,
+                    tprem: 0,
+                    money: 0, 
+                    warn: 0,
+                    name: m.name,
+                }
             let settings = global.db.data.settings[this.user.jid]
             if (typeof settings !== 'object') global.db.data.settings[this.user.jid] = {}
             if (settings) {
@@ -179,7 +140,7 @@ chat.rules = ''
                 if (!('restrict' in settings)) settings.restrict = true
                 if (!('antiCall' in settings)) settings.antiCall = true
                 if (!('antiPrivate' in settings)) settings.antiprivato = true
-          if (!('jadibot' in settings)) settings.jadibot = true   
+                if (!('jadibot' in settings)) settings.jadibot = true   
             } else global.db.data.settings[this.user.jid] = {
                 self: false,
                 autoread: false,
@@ -207,7 +168,7 @@ chat.rules = ''
         const isROwner = [conn.decodeJid(global.conn.user.id), ...global.owner.map(([number]) => number)].map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
         const isOwner = isROwner || m.fromMe
         const isMods = isOwner || global.mods.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
-        const isPrems = isROwner || global.prems.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
+        const isPrems = isROwner || isOwner || isMods || global.db.data.users[m.sender].premiumTime > 0; // || global.db.data.users[m.sender].premium = 'true'
 
         if (opts['queque'] && m.text && !(isMods || isPrems)) {
             let queque = this.msgqueque, time = 1000 * 5
@@ -326,12 +287,12 @@ chat.rules = ''
                 if (m.chat in global.db.data.chats || m.sender in global.db.data.users) {
                     let chat = global.db.data.chats[m.chat]
                     let user = global.db.data.users[m.sender]
-                    if (name != 'OWNER_unbanchat.js' && chat?.isBanned)
+                    if (name != 'owner-unbanchat.js' && chat?.isBanned)
                         return // Except this
-                    if (name != 'OWNER_unbanuser.js' && user?.banned)
+                    if (name != 'owner-unbanuser.js' && user?.banned)
                         return
                 }
-          let hl = _prefix 
+                let hl = _prefix 
                 let adminMode = global.db.data.chats[m.chat].modoadmin
                 let mystica = `${plugin.botAdmin || plugin.admin || plugin.group || plugin || noPrefix || hl ||  m.text.slice(0, 1) == hl || plugin.command}`
                 if (adminMode && !isOwner && !isROwner && m.isGroup && !isAdmin && mystica) return   
@@ -464,14 +425,11 @@ chat.rules = ''
         }
         // conn.sendPresenceUpdate('composing', m.chat) 
         //console.log(global.db.data.users[m.sender])
-        let chat, user, stats = global.db.data.stats
-        if (m) { let utente = global.db.data.users[m.sender]
-if (m.isCommand) {
-utente.command += 1
-}
+let chat, user, stats = global.db.data.stats
+if (m) { let utente = global.db.data.users[m.sender];
 if (utente.muto == true) {
-let bang = m.key.id
-let cancellazzione = m.key.participant
+let bang = m.key.id;
+let cancellazzione = m.key.participant;
 await conn.sendMessage(m.chat, {
 delete: {
 remoteJid: m.chat, fromMe: false, id: bang, participant: cancellazzione
@@ -545,29 +503,70 @@ export async function participantsUpdate({ id, participants, action }) {
             if (chat.welcome) {
                 let groupMetadata = await this.groupMetadata(id) || (conn.chats[id] || {}).metadata
                 for (let user of participants) {
-                    let pp = './icone/benvenuto.png'
+                    let pp = fs.readFileSync('./src/profilo.png')
                     try {
                         pp = await this.profilePictureUrl(user, 'image')
                     } catch (e) {
                     } finally {
-                    let apii = await this.getFile(pp)
-                        text = (action === 'add' ? (chat.sWelcome || this.welcome || conn.welcome || 'benvenuto, @user!').replace('@subject', await this.getName(id)).replace('@desc', groupMetadata.desc?.toString() || 'bot') :
-                              (chat.sBye || this.bye || conn.bye || 'bye bye, @user!')).replace('@user', '@' + user.split('@')[0])
-this.sendMessage(id, { text: text, 
-  contextInfo:{ 
-  mentionedJid:[user],
-      forwardingScore: 99,
-        isForwarded: true,                    forwardedNewsletterMessageInfo: {
-   newsletterJid: '120363341274693350@newsletter',
-serverMessageId: '', 
-newsletterName: global.nomebot },
-  "externalAdReply": {
-  "title": `${action === 'add' ? '𝗕𝗘𝗡𝗩𝗘𝗡𝗨𝗧𝗢/𝗔 👋🏻' : '𝗔𝗗𝗗𝗜𝗢 👋🏻'}`, 
- "body": ``, 
-  "previewType": "PHOTO", 
- "thumbnailUrl": ``, 
- "thumbnail": apii.data,
-  "mediaType": 1
+                        let apii = await this.getFile(pp)
+                        let nomeDelBot = global.db.data.nomedelbot || `𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲`
+                        text = (action === 'add' ? (chat.sWelcome || this.welcome || conn.welcome || 'Benvenuto, @user!').replace('@subject', await this.getName(id)).replace('@desc', groupMetadata.desc?.toString() || 'bot') :
+                            (chat.sBye || this.bye || conn.bye || 'Addio, @user!')).replace('@user', '@' + user.split('@')[0])
+                        this.sendMessage(id, { 
+                            text: text, 
+                            contextInfo:{ 
+                                mentionedJid:[user],
+                                forwardingScore: 99,
+                                isForwarded: true, 
+                               forwardedNewsletterMessageInfo: {
+                               newsletterJid: '120363259442839354@newsletter',
+                               serverMessageId: '', newsletterName: `${nomeDelBot}` },
+                               externalAdReply: {
+                                    "title": `${action === 'add' ? '𝐌𝐞𝐬𝐬𝐚𝐠𝐠𝐢𝐨 𝐝𝐢 𝐛𝐞𝐧𝐯𝐞𝐧𝐮𝐭𝐨' : '𝐌𝐞𝐬𝐬𝐚𝐠𝐠𝐢𝐨 𝐝𝐢 𝐚𝐝𝐝𝐢𝐨'}`,
+                                    "previewType": "PHOTO", 
+                                    "thumbnailUrl": ``, 
+                                    "thumbnail": apii.data,
+                                    "mediaType": 1
+                                }
+                            }
+                        }) 
+                    } 
+                } 
+            }
+            break
+        case 'promote':
+        case 'daradmin':
+        case 'promuovi':
+        case 'demote':
+        case 'quitarpoder':
+        case 'retrocedi':
+            if (chat.welcome) {
+                let groupMetadata = await this.groupMetadata(id) || (conn.chats[id] || {}).metadata
+                for (let user of participants) {
+                    let pp = fs.readFileSync('./src/profilo.png')
+                    try {
+                        pp = await this.profilePictureUrl(user, 'image')
+                    } catch (e) {
+                    } finally {
+                        let nomeDelBot = global.db.data.nomedelbot || `𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲`
+                        let apii = await this.getFile(pp)
+                        text = (action === 'promote' ? (chat.sPromote || this.spromote || conn.spromote || '@user ```è ora admin```') :
+                            (chat.sDemote || this.sdemote || conn.sdemote || '@user ```non è più admin```')).replace('@user', '@' + user.split('@')[0])
+                        this.sendMessage(id, { 
+                            text: text, 
+                            contextInfo:{ 
+                                mentionedJid:[user],
+                                forwardingScore: 99,
+                                isForwarded: true, 
+                               forwardedNewsletterMessageInfo: {
+                               newsletterJid: '120363259442839354@newsletter',
+                               serverMessageId: '', newsletterName: `${nomeDelBot}` },
+                               externalAdReply: {
+                                    "title": `${action === 'promote' ? '𝐌𝐞𝐬𝐬𝐚𝐠𝐠𝐢𝐨 𝐝𝐢 𝐩𝐫𝐨𝐦𝐨𝐳𝐢𝐨𝐧𝐞 👑' : '𝐌𝐞𝐬𝐬𝐚𝐠𝐠𝐢𝐨 𝐝𝐢 𝐫𝐞𝐭𝐫𝐨𝐜𝐞𝐬𝐬𝐢𝐨𝐧𝐞 🙇🏻‍♂️'}`,
+                                    "previewType": "PHOTO", 
+                                    "thumbnailUrl": ``, 
+                                    "thumbnail": apii.data,
+                                    "mediaType": 1
                                 }
                             }
                         }) 
@@ -602,14 +601,10 @@ export async function callUpdate(callUpdate) {
     for (let nk of callUpdate) {
     if (nk.isGroup == false) {
     if (nk.status == "offer") {
-    let callmsg = await this.reply(nk.from, `𝐆𝐞𝐧𝐭𝐢𝐥𝐞 𝐮𝐭𝐞𝐧𝐭𝐞 @${nk.from.split('@')[0]} , 
- 
-𝐋𝐚 𝐢𝐧𝐟𝐨𝐫𝐦𝐢𝐚𝐦𝐨 𝐜𝐡𝐞 𝐥𝐚 𝐟𝐮𝐧𝐳𝐢𝐨𝐧𝐚𝐥𝐢𝐭à 𝐚𝐧𝐭𝐢𝐜𝐚𝐥𝐥 è 𝐚𝐭𝐭𝐢𝐯𝐚. 𝐏𝐞𝐫𝐭𝐚𝐧𝐭𝐨, 𝐢𝐥 𝐧𝐮𝐦𝐞𝐫𝐨 𝐝𝐞𝐥 𝐛𝐨𝐭 𝐧𝐨𝐧 𝐩𝐮ò 𝐫𝐢𝐜𝐞𝐯𝐞𝐫𝐞 𝐜𝐡𝐢𝐚𝐦𝐚𝐭𝐞. 𝐋𝐚 𝐢𝐧𝐯𝐢𝐭𝐢𝐚𝐦𝐨 𝐚 𝐜𝐨𝐧𝐭𝐚𝐭𝐭𝐚𝐫𝐞 𝐢 𝐧𝐨𝐬𝐭𝐫𝐢 𝐜𝐫𝐞𝐚𝐭𝐨𝐫𝐢 𝐮𝐭𝐢𝐥𝐢𝐳𝐳𝐚𝐧𝐝𝐨 𝐢 𝐫𝐞𝐜𝐚𝐩𝐢𝐭𝐢 𝐢𝐧𝐝𝐢𝐜𝐚𝐭𝐢 𝐝𝐢 𝐬𝐞𝐠𝐮𝐢𝐭𝐨. 𝐋𝐞 𝐜𝐨𝐦𝐮𝐧𝐢𝐜𝐡𝐢𝐚𝐦𝐨 𝐢𝐧𝐨𝐥𝐭𝐫𝐞 𝐜𝐡𝐞 𝐢𝐥 𝐬𝐮𝐨 𝐧𝐮𝐦𝐞𝐫𝐨 𝐯𝐞𝐫𝐫à 𝐚𝐮𝐭𝐨𝐦𝐚𝐭𝐢𝐜𝐚𝐦𝐞𝐧𝐭𝐞 𝐛𝐥𝐨𝐜𝐜𝐚𝐭𝐨 𝐩𝐞𝐫 𝐞𝐯𝐢𝐭𝐚𝐫𝐞 𝐮𝐥𝐭𝐞𝐫𝐢𝐨𝐫𝐢 𝐭𝐞𝐧𝐭𝐚𝐭𝐢𝐯𝐢 𝐝𝐢 𝐜𝐡𝐢𝐚𝐦𝐚𝐭𝐚. 
- 
-𝐂𝐨𝐫𝐝𝐢𝐚𝐥𝐢 𝐬𝐚𝐥𝐮𝐭𝐢.`, false, { mentions: [nk.from] }) 
+    let callmsg = await this.reply(nk.from, `ciao @${nk.from.split('@')[0]}, c'è anticall.`, false, { mentions: [nk.from] })
     //let data = global.owner.filter(([id, isCreator]) => id && isCreator)
-    let vcard = `BEGIN:VCARD\nVERSION:1.0\nN:;CESCO;;;\nFN:CESCO\nORG:CESCO\nTITLE:\nitem1.TEL;waid=393755853799:+3* 375 585 3799\nitem1.X-ABLabel:CESCO\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:CESCO\nEND:VCARD`
-    await this.sendMessage(nk.from, { contacts: { displayName: 'CESCO', contacts: [{ vcard }] }}, {quoted: callmsg})
+    let vcard = `BEGIN:VCARD\nVERSION:1.0\nN:;cescobot;;;\nFN:cescobot\nORG:cescobot\nTITLE:\nitem1.TEL;waid=393755853799:+39 375 585 3799\nitem1.X-ABLabel:cescobot\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲\nEND:VCARD`
+    await this.sendMessage(nk.from, { contacts: { displayName: 'Unlimited', contacts: [{ vcard }] }}, {quoted: callmsg})
     await this.updateBlockStatus(nk.from, 'block')
     }
     }
@@ -642,7 +637,6 @@ export async function deleteUpdate(message) {
         console.error(e)
     }
 }
-
 global.dfail = (type, m, conn) => {
     let msg = {
         rowner: '𝐐𝐮𝐞𝐬𝐭𝐨 𝐜𝐨𝐦𝐚𝐧𝐝𝐨 𝐞̀ 𝐝𝐢𝐬𝐩𝐨𝐧𝐢𝐛𝐢𝐥𝐞 𝐬𝐨𝐥𝐨 𝐩𝐞𝐫 𝐨𝐰𝐧𝐞𝐫 🕵🏻‍♂️',
@@ -658,7 +652,7 @@ global.dfail = (type, m, conn) => {
   "externalAdReply": {"title": `${msg}`, 
  "body": ``, 
   "previewType": "PHOTO",
-  "thumbnail": fs.readFileSync('./icone/accessdenied.png'),
+  "thumbnail": fs.readFileSync('./accessdenied2.png'),
   "mediaType": 1,
   "renderLargerThumbnail": true}}}, {quoted: m})
 }
