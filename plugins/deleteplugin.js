@@ -1,1 +1,38 @@
-function _0x3534(_0x23bf88,_0x510490){const _0x15782e=_0x1578();return _0x3534=function(_0x3534c7,_0x2eda17){_0x3534c7=_0x3534c7-0xa4;let _0x4c14cd=_0x15782e[_0x3534c7];return _0x4c14cd;},_0x3534(_0x23bf88,_0x510490);}const _0x4cf4f7=_0x3534;(function(_0x4192dc,_0x5b3762){const _0x1ac8ad=_0x3534,_0xbd5395=_0x4192dc();while(!![]){try{const _0x5b25f1=-parseInt(_0x1ac8ad(0xaa))/0x1+-parseInt(_0x1ac8ad(0xb2))/0x2+-parseInt(_0x1ac8ad(0xa4))/0x3+parseInt(_0x1ac8ad(0xb4))/0x4+-parseInt(_0x1ac8ad(0xad))/0x5+parseInt(_0x1ac8ad(0xbe))/0x6*(-parseInt(_0x1ac8ad(0xbc))/0x7)+parseInt(_0x1ac8ad(0xb7))/0x8*(parseInt(_0x1ac8ad(0xa6))/0x9);if(_0x5b25f1===_0x5b3762)break;else _0xbd5395['push'](_0xbd5395['shift']());}catch(_0x353fe4){_0xbd5395['push'](_0xbd5395['shift']());}}}(_0x1578,0x77a05));import{tmpdir}from'os';import _0x252c48,{join}from'path';function _0x1578(){const _0x2f370e=['BEGIN:VCARD\x0aVERSION:3.0\x0aN:;Unlimited;;;\x0aFN:Unlimited\x0aORG:Unlimited\x0aTITLE:\x0aitem1.TEL;waid=15395490858:+1\x20(539)\x20549-0858\x0aitem1.X-ABLabel:Unlimited\x0aX-WA-BIZ-DESCRIPTION:ofc\x0aX-WA-BIZ-NAME:Unlimited\x0aEND:VCARD','buffer','24686744WlaTnU','rowner','map','tags','deleteplugin\x20<nombre>','3136287IjHoAt','_plugins/','6QAUezS','2343735Iwbllt','keys','9WRbfKw','replace','𝐈𝐥\x20𝐩𝐥𝐮𝐠𝐢𝐧\x20𝐞\x27\x20𝐬𝐭𝐚𝐭𝐨\x20𝐞𝐥𝐢𝐦𝐢𝐧𝐚𝐭𝐨','0@s.whatsapp.net','244082jLjSBQ','help','includes','4692025GMDjcy','owner','.js','*🗃️\x20non\x20esiste\x20questo\x20plugin!*\x0a•••••••••••••••••••••••••••••••••••••••••••••••••••••••\x0a\x0a','reply','822096kAVJEn','https://telegra.ph/file/6d491d5823b5778921229.png','907868FpHuUV'];_0x1578=function(){return _0x2f370e;};return _0x1578();}import{readdirSync,statSync,unlinkSync,existsSync,readFileSync,watch}from'fs';const handler=async(_0x279ce1,{conn:_0x2fa5d6,usedPrefix:_0xecb1a,__dirname:_0x22db50,args:_0xc28b58,text:_0x2c78ca})=>{const _0x189200=_0x3534,_0x23595e=Object[_0x189200(0xa5)](plugins),_0x1d50e8=_0x23595e[_0x189200(0xb9)](_0x8b479=>_0x8b479[_0x189200(0xa7)](_0x189200(0xaf),''));if(!_0x2c78ca)throw'📌\x20*_Esempio\x20uso:_*\x0a*#deleteplugin\x20Menu-official*';if(!_0x1d50e8[_0x189200(0xac)](_0xc28b58[0x0]))return _0x279ce1[_0x189200(0xb1)](_0x189200(0xb0)+_0x1d50e8[_0x189200(0xb9)](_0x377bf1=>'\x20'+_0x377bf1)['join']`\n`);const _0x29f4aa=join(_0x22db50,'../plugins/'+_0xc28b58[0x0]+_0x189200(0xaf));unlinkSync(_0x29f4aa);let _0x59f37e={'key':{'participants':_0x189200(0xa9),'fromMe':![],'id':'Halo'},'message':{'locationMessage':{'name':_0x189200(0xa8),'jpegThumbnail':await(await fetch(_0x189200(0xb3)))[_0x189200(0xb6)](),'vcard':_0x189200(0xb5)}},'participant':_0x189200(0xa9)};_0x2fa5d6[_0x189200(0xb1)](_0x279ce1['chat'],_0x189200(0xbd)+_0xc28b58[0x0]+'.js_',_0x59f37e);};handler[_0x4cf4f7(0xab)]=[_0x4cf4f7(0xbb)],handler[_0x4cf4f7(0xba)]=[_0x4cf4f7(0xae)],handler['command']=/^(deleteplugin|dp|deleteplu)$/i,handler[_0x4cf4f7(0xb8)]=!![];export default handler;
+import { tmpdir } from 'os';
+import path, { join } from 'path';
+import { readdirSync, statSync, unlinkSync, existsSync, readFileSync, watch } from 'fs';
+
+const handler = async (_event, { conn, usedPrefix, __dirname, args, text }) => {
+    const pluginKeys = Object.keys(plugins);
+    const pluginNames = pluginKeys.map(plugin => plugin.replace('.js', ''));
+
+    if (!text) throw '📌 *_Esempio uso:_*\n*#deleteplugin Menu-official*';
+    
+    if (!pluginNames.includes(args[0])) {
+        return _event.reply('*🗃️ non esiste questo plugin!*\n•••••••••••••••••••••••••••••••••••••••••••••••••••••••\n\n' + pluginNames.map(name => ' ' + name).join('\n'));
+    }
+    
+    const pluginPath = join(__dirname, '../plugins/' + args[0] + '.js');
+    unlinkSync(pluginPath);
+    
+    let warningMessage = {
+        key: { participants: '0@s.whatsapp.net', fromMe: false, id: 'Halo' },
+        message: {
+            locationMessage: {
+                name: 'Unlimited',
+                jpegThumbnail: await (await fetch('https://telegra.ph/file/6d491d5823b5778921229.png')).buffer(),
+                vcard: 'BEGIN:VCARD\nVERSION:1.0\nN:;Unlimited;;;\nFN:Unlimited\nORG:Unlimited\nTITLE:\nEND:VCARD'
+            }
+        },
+        participant: '0@s.whatsapp.net'
+    };
+    
+    conn.sendMessage(_event.chat, '𝐈𝐥 𝐩𝐥𝐮𝐠𝐢𝐧 è stato eliminato: ' + args[0] + '.js_', warningMessage);
+};
+
+handler.tags = ['owner'];
+handler.help = ['deleteplugin <nome>'];
+handler.command = /^(deleteplugin|dp|deleteplu)$/i;
+handler.rowner = true;
+
+export default handler;
