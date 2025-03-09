@@ -50,7 +50,7 @@ p.send(process.uptime())
 break }})
 p.on('exit', (_, code) => {
 isRunning = false
-console.error('Errore inaspettato contattare +86 19858371809', code)
+console.error('Errore inaspettato contattare +39 375 585 3799', code)
   
 p.process.kill()
 isRunning = false
