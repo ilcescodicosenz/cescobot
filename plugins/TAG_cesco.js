@@ -5,7 +5,7 @@ handler.all = async function (m) {
 
     // Messaggio per il tag di un numero specifico (es. owner)
     if (/^@+393755853799|@393755853799$/i.test(m.text)) { // Senza prefisso
-        conn.reply(m.chat, `*[ IG ] https://instagram.com/ilcescodicosenz se volete il bot, fate .supporto*`, m)
+        conn.reply(m.chat, `*[ IG ] https://instagram.com/f.cesco_ se volete il bot, fate .supporto*`, m)
     }
 
     return !0 
