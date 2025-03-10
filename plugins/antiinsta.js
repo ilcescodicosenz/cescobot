@@ -1,64 +1,33 @@
-let linkRegex = /instagram.com/i;
+const linkInstagram = /instagram.com/i;
 
-export async function before(m, { isAdmin, groupMetadata, isBotAdmin }) {
-    // Verifica se il messaggio contiene un link Instagram
-    if (m.text && m.text.includes('instagram.com')) return true;
+async function controllaMessaggio(messaggio, { isAdmin, groupMetadata, isBotAdmin }) {
+    // Controlla se il messaggio è un aggiornamento del gruppo o è stato mandato in una chat privata
+    if (messaggio.groupParticipantsUpdate || !messaggio.isGroup) return;
 
-    // Se il messaggio non è un link Instagram, esci
-    if (!m.text) return false;
+    // Prendi le impostazioni del gruppo
+    const impostazioniGruppo = global.db.data.chats[messaggio.chat];
 
-    let chatSettings = global.db.data.chats[m.chat];
-    let warnThreshold = 5;
-    let participantId = m.participant.id;
-    let senderId = m.sender;
-    let groupData = global.db.data.users[senderId] || {};
+    // Se "anti-insta" non è attivo, non fare nulla
+    if (!impostazioniGruppo.antiinsta) return;
 
-    // Controlla se il messaggio contiene un link Instagram
-    let isInstagramLink = linkRegex.test(m.text);
-    
-    // Se l'admin è attivo e l'anti-instagram è attivato, non fare nulla
-    if (isAdmin && chatSettings.antiinsta && m.text.includes('anti-instagram')) return;
+    // Prendi le informazioni sull'utente
+    const informazioniUtente = global.db.data.users[messaggio.sender];
 
-    // Se il bot è amministratore e il link è Instagram
-    if (chatSettings.antiinsta && isInstagramLink && !isAdmin && isBotAdmin) {
-        if (isBotAdmin) {
-            // Incrementa il conteggio degli avvisi
-            global.db.data.users[senderId].warn += 1;
+    // Controlla se il messaggio contiene un link di Instagram
+    if (linkInstagram.test(messaggio.text) && !isAdmin && isBotAdmin) {
+        // Aumenta il numero di avvisi dell'utente
+        informazioniUtente.warn++;
 
-            // Rimuove il messaggio contenente il link
-            await conn.sendMessage(m.chat, {
-                delete: {
-                    remoteJid: m.chat,
-                    fromMe: false,
-                    id: m.messageId,
-                    participant: participantId
-                }
-            });
+        // Invia un avviso all'utente
+        messaggio.reply(`⚠ LINK INSTAGRAM NON SONO CONSENTITI\n*Avviso: ${informazioniUtente.warn}*`);
 
-            let userWarns = global.db.data.users[senderId].warn;
-            let userName = global.db.data.users[senderId].name;
-
-            if (userWarns < warnThreshold) {
-                let warningMessage = {
-                    key: { participants: m.participant, fromMe: false, id: 'warning' },
-                    message: {
-                        locationMessage: {
-                            name: 'Instagram Link Warning',
-                            jpegThumbnail: await (await fetch('https://telegra.ph/file/e12aae9f5ea6c2e5e52aa.png')).buffer(),
-                            vcard: 'BEGIN:VCARD\nVERSION:1.0\nN:;Unlimited;;;\nFN:Unlimited\nORG:Unlimited\nTEL;waid=19709001746:+1 (970) 900-1746\nEND:VCARD'
-                        }
-                    },
-                    participant: m.participant
-                };
-                
-                // Invia un messaggio di avviso
-                conn.sendMessage(m.chat, '⚠️ Link Instagram NON CONSENTITI\n' + userName + ' hai violato le regole', warningMessage);
-            } else {
-                global.db.data.users[senderId].warn = 0;
-                conn.sendMessage(m.chat, '⛔ Avviso: Link Instagram rimosso!', [m.sender]);
-            }
+        // Se l'utente ha ricevuto 5 avvisi, rimuovilo dal gruppo
+        if (informazioniUtente.warn >= 5) {
+            messaggio.reply('⛔ UTENTE RIMOSSO DOPO 5 AVVERTIMENTI');
+            await messaggio.remove(messaggio.chat, [messaggio.sender], messaggio.isBaileys);
+            informazioniUtente.warn = 0; // Resetta gli avvisi
         }
     }
-    
-    return true;
 }
+
+export { controllaMessaggio as before };
