@@ -142,7 +142,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       }
 
       if (!success) {
-        return m.reply(`⚠︎ *Non sono riuscito a scaricare il video:* link per il download invalido.`);
+        return m.reply(`⚠︎ *Impossibile scaricare il video:* Non è stato trovato alcun link valido per il download.`);
       }
     } else {
       throw "Comando no reconocido.";
