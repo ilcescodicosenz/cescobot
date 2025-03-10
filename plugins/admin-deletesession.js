@@ -1,28 +1,32 @@
 import { readdirSync, unlinkSync, existsSync, promises as fsPromises } from 'fs';
 import path from 'path';
 
-const handler = async (m, { conn, usedPrefix }) => {
-  // Verifica se chi esegue il comando è l'owner del bot
+async function handler(message, { conn, usedPrefix }) {
+  // Verifica se chi ha inviato il comando è il proprietario del robot
   if (global.owner.user.jid !== conn.user.jid) {
-    return conn.sendMessage(m.chat, { text: '*Utilizza questo comando direttamente nel numero principale del Bot.*' }, { quoted: m });
+    // Se non è il proprietario, invia un messaggio di errore
+    await conn.sendMessage(message.chat, { text: "*Utilizza questo comando direttamente nel numero principale del Bot.*" }, { quoted: message });
+    return;
   }
 
-  // Avvisa che il ripristino delle sessioni è in corso
-  await conn.sendMessage(m.chat, { text: 'ⓘ Ripristino delle sessioni in corso...' }, { quoted: m });
+  // Invia un messaggio per dire che sta iniziando la cancellazione
+  await conn.sendMessage(message.chat, { text: "ⓘ Ripristino delle sessioni in corso..." }, { quoted: message });
 
   const sessionsFolder = './Sessioni/'; // Percorso della cartella delle sessioni
 
   try {
     // Verifica se la cartella delle sessioni esiste
     if (!existsSync(sessionsFolder)) {
-      return await conn.sendMessage(m.chat, { text: '*La cartella Sessioni non esiste o è vuota.*' }, { quoted: m });
+      // Se non esiste, invia un messaggio di errore
+      await conn.sendMessage(message.chat, { text: "*La cartella Sessioni non esiste o e' vuota.*" }, { quoted: message });
+      return;
     }
 
     // Legge il contenuto della cartella delle sessioni
     const files = await fsPromises.readdir(sessionsFolder);
     let deletedFilesCount = 0;
 
-    // Itera sui file e li elimina, tranne 'creds.json'
+    // Cancella ogni file nella cartella (tranne uno chiamato "creds.json")
     for (const file of files) {
       if (file !== 'creds.json') {
         await fsPromises.unlink(path.join(sessionsFolder, file));
@@ -30,40 +34,50 @@ const handler = async (m, { conn, usedPrefix }) => {
       }
     }
 
-    // Invia un messaggio in base al numero di file eliminati
+    // Invia un messaggio con il numero di file cancellati
     if (deletedFilesCount === 0) {
-      await conn.sendMessage(m.chat, { text: 'ⓘ Le sessioni sono vuote ‼️' }, { quoted: m });
+      await conn.sendMessage(message.chat, { text: "ⓘ Le sessioni sono vuote ‼️" }, { quoted: message });
     } else {
-      await conn.sendMessage(m.chat, { text: 'ⓘ Sono stati eliminati ' + deletedFilesCount + ' archivi nelle sessioni' }, { quoted: m });
+      await conn.sendMessage(message.chat, { text: "ⓘ Sono stati eliminati " + deletedFilesCount + " archivi nelle sessioni" }, { quoted: message });
     }
+
   } catch (error) {
-    // Gestisce eventuali errori durante l'eliminazione dei file
+    // Se si verifica un errore, lo mostra nella console e invia un messaggio di errore
     console.error('Errore', error);
-    await conn.sendMessage(m.chat, { text: 'Errore' }, { quoted: m });
+    await conn.sendMessage(message.chat, { text: "Errore" }, { quoted: message });
   }
 
-  // Crea un messaggio di "contatto" per confermare l'operazione
-  const botName = global.db.data.chats[m.chat]?.botName || '  cescobot  ';
-  const botNumber = global.db.data.users?.admin || '+1 (970) 900-1746';
-  const contactMessage = {
-    key: { participants: '0@s.whatsapp.net', fromMe: false, id: 'Halo' },
-    message: {
-      locationMessage: {
-        name: '' + botName,
-        jpegThumbnail: await (await fetch('https://qu.ax/cSqEs.jpg')).buffer(),
-        vcard: 'BEGIN:VCARD\nVERSION:1.0\nN:;Unlimited;;;\nFN:Unlimited\nORG:Unlimited\nTITLE:\nitem1.TEL;waid=' + botNumber.replace(/[^+0-9]/g, '') + ':' + botNumber + '\nitem1.X-ABLabel:Unlimited\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:Unlimited\nEND:VCARD',
-      },
-    },
-    participant: '0@s.whatsapp.net',
-  };
+  // Invia un messaggio speciale per dire che le sessioni sono state ripristinate.
+  let botName = global.db.data.settings.botName || ' cescobot ';
+  let vcard = 'BEGIN:VCARD\n' +
+        'VERSION:1.0\n' +
+        'N:;Unlimited;;;\n' +
+        'FN:Unlimited\n' +
+        'ORG:Unlimited\n' +
+        'TITLE:\n' +
+        'item1.TEL;waid=19709001746:+1 (970) 900-1746\n' +
+        'item1.X-ABLabel:Unlimited\n' +
+        'X-WA-BIZ-DESCRIPTION:ofc\n' +
+        'X-WA-BIZ-NAME:Unlimited\n' +
+        'END:VCARD';
 
-  // Invia il messaggio di "contatto"
-  await conn.sendMessage(m.chat, { text: 'ⓘ Ora sarai in grado di leggere i messaggi del bot' }, { quoted: contactMessage });
-};
+  let locationMessage = {
+      key: { participants: '0@s.whatsapp.net', fromMe: false, id: 'Halo' },
+      message: {
+          locationMessage: {
+              name: '' + botName,
+              jpegThumbnail: await (await fetch('https://qu.ax/cSqEs.jpg')).buffer(),
+              vcard: vcard
+          }
+      },
+      participant: '0@s.whatsapp.net'
+  };
+  await conn.sendMessage(message.chat, { text: "ⓘ Ora sarai in grado di leggere i messaggi del bot" }, { quoted: locationMessage });
+}
 
 // Configurazione del comando
 handler.help = ['del_reg_in_session_owner'];
-handler.tags = ['owner'];
+handler.tags = ['admin'];
 handler.command = /^(deletession|ds|clearallsession)$/i;
 handler.owner = true;
 
