@@ -19,7 +19,16 @@ function getConstants() {
     ];
 }
 
-const handler = async (message) => {
+const handler = async (message, { conn }) => {
+    // Verifica se chi ha inviato il messaggio è un amministratore
+    const groupMetadata = await conn.groupMetadata(message.chat);
+    const isAdmin = groupMetadata.participants.some(participant => participant.admin && participant.id === message.sender);
+
+    if (!isAdmin) {
+        // Se non è un amministratore, non fare nulla
+        return;
+    }
+
     const constants = decodeIndex;
     const config = {
         UxWgu: constants(0x1d0),
