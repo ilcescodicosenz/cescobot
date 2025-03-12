@@ -1,33 +1,27 @@
-let handler = m => m;
+let handler = async (message) => {
+    if (!message.isGroup) return null;  // Controlla se è un gruppo, altrimenti esce
+    
+    let senderData = global.db.data.users[message.sender];  // Recupera i dati dell'utente
 
-handler.all = async function (message) {
-    // Controlla se il messaggio è stato mandato in un gruppo
-    if (!message.isGroup) return;
+    // Lista delle bestemmie da rilevare
+    const blasphemyRegex = /(?:porco dio|porcodio|dio bastardo|dio cane|porcamadonna|madonnaporca|porca madonna|madonna porca|dio cristo|diocristo|dio maiale|diomaiale|jesucristo|jesu cristo|cristo madonna|madonna impanata|dio cristo|cristo dio|dio frocio|dio gay|dio madonna|dio infuocato|dio crocifissato|madonna puttana|madonna vacca|madonna inculata|maremma maiala|padre pio|jesu impanato|jesu porco|porca madonna|diocane|madonna porca|dio capra|capra dio|padre pio ti spio)/i;
 
-    // Prendi le impostazioni del gruppo
-    const impostazioniGruppo = global.db.data.chats[message.chat];
+    // Se il messaggio contiene una bestemmia
+    if (senderData.bestemmiometro && blasphemyRegex.test(message.text)) {
+        senderData.blasphemy = (senderData.blasphemy || 0) + 1;  // Incrementa il conteggio
 
-    // Se "bestemmiometro" non è attivo, non fare nulla
-    if (!impostazioniGruppo.bestemmiometro) return;
+        let mention = "@" + message.sender.split("@")[0];  // Menzione dell'utente
 
-    // Prendi le informazioni sull'utente
-    const informazioniUtente = global.db.data.users[message.sender];
-
-    // Controlla se il messaggio contiene una bestemmia
-    if (/(?:porco dio|porcodio|dio bastardo|dio cane|dio maiake|porca madonna|oid ocrop|)/i.test(message.text)) {
-        // Aumenta il numero di bestemmie dell'utente
-        informazioniUtente.blasphemy = (informazioniUtente.blasphemy || 0) + 1;
-
-        // Se è la prima bestemmia dell'utente, invia un messaggio speciale
-        if (informazioniUtente.blasphemy === 1) {
-            const messaggioPrimoBestemmia = `@${message.sender.split("@")[0]} ha tirato la sua prima bestemmia`;
-            message.reply(messaggioPrimoBestemmia, null, { mentions: [message.sender] });
+        // Primo avviso
+        if (senderData.blasphemy === 1) {
+            let response = mention + " ha tirato la sua prima bestemmia";
+            conn.sendMessage(message.chat, { text: response, mentions: [message.sender] });
         }
-
-        // Se l'utente ha già bestemmiato, invia un messaggio con il conteggio
-        if (informazioniUtente.blasphemy > 1) {
-            const messaggioConteggioBestemmie = `@${message.sender.split("@")[0]} ha tirato ${informazioniUtente.blasphemy} bestemmie`;
-            message.reply(messaggioConteggioBestemmie, null, { mentions: [message.sender] });
+        
+        // Avviso successivo con conteggio bestemmie
+        if (senderData.blasphemy > 1) {
+            let response = mention + ` ha tirato ${senderData.blasphemy} bestemmie`;
+            conn.sendMessage(message.chat, { text: response, mentions: [message.sender] });
         }
     }
 };
