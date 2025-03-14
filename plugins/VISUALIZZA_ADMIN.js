@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 function decodeIndex(index, offset) {
     const constants = getConstants();
     return (index) => {
@@ -20,13 +22,12 @@ function getConstants() {
 }
 
 const handler = async (message, { conn }) => {
-    // Verifica se chi ha inviato il messaggio è un amministratore o l'owner
+    // Verifica se chi ha inviato il messaggio è un amministratore
     const groupMetadata = await conn.groupMetadata(message.chat);
     const isAdmin = groupMetadata.participants.some(participant => participant.admin && participant.id === message.sender);
-    const isOwner = global.owner.some(([number]) => number === message.sender.split('@')[0]);
 
-    if (!isAdmin && !isOwner) {
-        // Se non è un amministratore o l'owner, non fare nulla
+    if (!isAdmin) {
+        // Se non è un amministratore, non fare nulla
         return;
     }
 
@@ -42,7 +43,7 @@ const handler = async (message, { conn }) => {
     };
 
     // Messaggi personalizzati
-    const promozioneMsg = "🎉 @utente è stato promosso ad amministratore!";
+    const promozioneMsg = "🎉 @utente è stato promosso ad amministratore da @promotore!";
     const retrocessioneMsg = "😔 @utente ha perso i poteri di amministratore.";
 
     if (message.messageStubType === -0x5b0 + 0x16a * 0xf + -0x6 * 0x3cd) {
@@ -55,8 +56,8 @@ const handler = async (message, { conn }) => {
 
         // Invia notifica nel gruppo con messaggio personalizzato
         conn.sendMessage(message.chat, {
-            text: promozioneMsg.replace('@utente', `@${message.messageStubParameters[1].split('@')[0]}`),
-            mentions: [message.messageStubParameters[1]]
+            text: promozioneMsg.replace('@utente', `@${message.messageStubParameters[1].split('@')[0]}`).replace('@promotore', `@${message.sender.split('@')[0]}`),
+            mentions: [message.messageStubParameters[1], message.sender]
         });
 
         // Invia messaggio privato all'amministratore
