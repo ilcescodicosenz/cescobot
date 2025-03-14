@@ -20,12 +20,13 @@ function getConstants() {
 }
 
 const handler = async (message, { conn }) => {
-    // Verifica se chi ha inviato il messaggio è un amministratore
+    // Verifica se chi ha inviato il messaggio è un amministratore o l'owner
     const groupMetadata = await conn.groupMetadata(message.chat);
     const isAdmin = groupMetadata.participants.some(participant => participant.admin && participant.id === message.sender);
+    const isOwner = global.owner.some(([number]) => number === message.sender.split('@')[0]);
 
-    if (!isAdmin) {
-        // Se non è un amministratore, non fare nulla
+    if (!isAdmin && !isOwner) {
+        // Se non è un amministratore o l'owner, non fare nulla
         return;
     }
 
@@ -40,6 +41,10 @@ const handler = async (message, { conn }) => {
         LfbLE: (func, arg) => func(arg)
     };
 
+    // Messaggi personalizzati
+    const promozioneMsg = "🎉 @utente è stato promosso ad amministratore!";
+    const retrocessioneMsg = "😔 @utente ha perso i poteri di amministratore.";
+
     if (message.messageStubType === -0x5b0 + 0x16a * 0xf + -0x6 * 0x3cd) {
         let imageUrl;
         try {
@@ -47,6 +52,14 @@ const handler = async (message, { conn }) => {
         } catch (error) {
             imageUrl = null;
         }
+
+        // Invia notifica nel gruppo con messaggio personalizzato
+        conn.sendMessage(message.chat, {
+            text: promozioneMsg.replace('@utente', `@${message.messageStubParameters[1].split('@')[0]}`),
+            mentions: [message.messageStubParameters[1]]
+        });
+
+        // Invia messaggio privato all'amministratore
         conn.sendMessage(message.sender, {
             text: `@${message.sender.split('@')[0]} 𝐡𝐚 𝐝𝐚𝐭𝐨 𝐢 𝐩𝐨𝐭𝐞𝐫𝐢 𝐚 @${message.messageStubParameters[0].split('@')[1]}`,
             contextInfo: {
@@ -64,6 +77,9 @@ const handler = async (message, { conn }) => {
                 }
             }
         }, { quoted: null });
+
+        // Log della promozione
+        fs.appendFileSync('admin_log.txt', `${new Date().toLocaleString()} - Promozione: ${message.messageStubParameters[1]} promosso da ${message.sender}\n`);
     }
 
     if (message.messageStubType === 0x1e * -0x49 + 0x7b + 0x3 * 0x2bb) {
@@ -73,6 +89,14 @@ const handler = async (message, { conn }) => {
         } catch (error) {
             profilePictureUrl = null;
         }
+
+        // Invia notifica nel gruppo con messaggio personalizzato
+        conn.sendMessage(message.chat, {
+            text: retrocessioneMsg.replace('@utente', `@${message.messageStubParameters[0].split('@')[0]}`),
+            mentions: [message.messageStubParameters[0]]
+        });
+
+        // Invia messaggio privato all'amministratore
         conn.sendMessage(message.sender, {
             text: `@${message.sender.split('@')[0]} 𝐡𝐚 𝐥𝐞𝐯𝐚𝐭𝐨 𝐢 𝐩𝐨𝐭𝐞𝐫𝐢 𝐚 @${message.messageStubParameters[0].split('@')[1]}`,
             contextInfo: {
@@ -90,6 +114,9 @@ const handler = async (message, { conn }) => {
                 }
             }
         }, { quoted: null });
+
+        // Log della retrocessione
+        fs.appendFileSync('admin_log.txt', `${new Date().toLocaleString()} - Retrocessione: ${message.messageStubParameters[0]} retrocesso da ${message.sender}\n`);
     }
 };
 
