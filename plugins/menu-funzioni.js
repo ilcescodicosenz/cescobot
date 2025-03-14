@@ -1,11 +1,16 @@
-import 'os';
-import 'util';
-import 'human-readable';
-import '@whiskeysockets/baileys';
-import 'fs';
-import 'perf_hooks';
+let handler = async (message, { conn, usedPrefix, isOwner, isAdmin, isGroup }) => {
+  // Verifica se il comando è stato eseguito in un gruppo
+  if (!isGroup) {
+    message.reply('Questo comando può essere utilizzato solo nei gruppi.');
+    return;
+  }
 
-let handler = async (message, { conn, usedPrefix }) => {
+  // Verifica se l'utente è un proprietario, un amministratore o un membro del gruppo
+  if (!isOwner && !isAdmin && !message.fromMe) {
+    // Se non è il proprietario, un amministratore o il bot stesso, l'utente può comunque vedere il menu
+    // ma non può modificare le impostazioni.
+  }
+
   const chatSettings = global.db.data.chats[message.chat];
   const {
     antiToxic,
@@ -39,15 +44,6 @@ let handler = async (message, { conn, usedPrefix }) => {
     modoadmin,
     audios
   } = chatSettings;
-
-  let targetUser = message.quoted ? message.quoted.sender :
-    (message.mentionedJid && message.mentionedJid[0]) ? message.mentionedJid[0] :
-    message.fromMe ? conn.user.jid : message.sender;
-
-  const profilePicUrl = (await conn.profilePictureUrl(targetUser, "image").catch(() => null)) || "./src/avatar_contact.png";
-  let profilePicBuffer = profilePicUrl !== "./src/avatar_contact.png"
-    ? await (await fetch(profilePicUrl)).buffer()
-    : await (await fetch("https://qu.ax/cSqEs.jpg")).buffer();
 
   let menuMessage = `\n──────────────\n` +
     `${detect ? '🟢' : '🔴'} » ${usedPrefix}detect\n` +
@@ -104,11 +100,6 @@ let handler = async (message, { conn, usedPrefix }) => {
 handler.help = ["menu"];
 handler.tags = ["menu"];
 handler.command = /^(funzioni)$/i;
-export default handler;
+handler.group = true; // Permette l'utilizzo solo nei gruppi
 
-function clockString(ms) {
-  let h = Math.floor(ms / 3600000);
-  let m = Math.floor(ms / 60000) % 60;
-  let s = Math.floor(ms / 1000) % 60;
-  return [h, m, s].map(v => v.toString().padStart(2, '0')).join(':');
-}
+export default handler;
