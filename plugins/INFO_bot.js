@@ -38,5 +38,6 @@ Per vedere i comandi usare ${usedPrefix}menu
 };
 
 handler.command = ['infobot', 'bot'];
-handler.group = true; // Permette l'uso del comando nei gruppi
+handler.group = true; // Permetti l'uso del comando nei gruppi
 export default handler;
+
