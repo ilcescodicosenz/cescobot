@@ -1,6 +1,12 @@
 import fetch from 'node-fetch'; // Per scaricare immagini da internet
 
 let handler = async (m, { conn, usedPrefix }) => {
+  const isOwner = global.owner.map(o => o.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender);
+  const isBot = m.key.fromMe;
+
+  if (!isOwner && !isBot) {
+    return m.reply('Questo comando è riservato al proprietario del bot.');
+  }
 
   // Messaggio finto con un'immagine
   let fakeMessage = {
@@ -21,51 +27,53 @@ let handler = async (m, { conn, usedPrefix }) => {
 
   // Menu dei comandi dell'owner (il capo del bot!)
   let ownerMenu = `
-────────────────
-> *𝐏𝐚𝐧𝐞𝐥𝐥𝐨 𝐝𝐢 𝐜𝐨𝐧𝐭𝐫𝐨𝐥𝐥𝐨 𝐎𝐰𝐧𝐞𝐫*
-────────────────
-⤷ *Comandi disponibili:*
+        ────────────────
+        > *𝐏𝐚𝐧𝐞𝐥𝐥𝐨 𝐝𝐢 𝐜𝐨𝐧𝐭𝐫𝐨𝐥𝐥𝐨 𝐎𝐰𝐧𝐞𝐫*
+        ────────────────
+        ⤷ *Comandi disponibili:*
 
-> ${usedPrefix}impostanome
-> ${usedPrefix}resettanome
-> ${usedPrefix}gestisci @
-> ${usedPrefix}setgruppi
-> ${usedPrefix}aggiungigruppi @
-> ${usedPrefix}resetgruppi @
-> ${usedPrefix}setpp (immagine)
-> ${usedPrefix}banuser @
-> ${usedPrefix}unbanuser @
-> ${usedPrefix}blockuser @
-> ${usedPrefix}unblockuser @
-> ${usedPrefix}pulizia (+)
-> ${usedPrefix}out
-> ${usedPrefix}prefisso (?)
-> ${usedPrefix}resettaprefisso
-> ${usedPrefix}godmode {autoadmin}
-> ${usedPrefix}azzera @
-> ${usedPrefix}aggiungi (numero messaggi) @
-> ${usedPrefix}rimuovi (numero messaggi) @
-> ${usedPrefix}flood
-> ${usedPrefix}nuke
-> ${usedPrefix}addowner @
-> ${usedPrefix}delowner @
-> ${usedPrefix}downall
-> ${usedPrefix}upall
-> ${usedPrefix}blocklist
-> ${usedPrefix}banlist
-> ${usedPrefix}bigtag
-> ${usedPrefix}lock
-> ${usedPrefix}safe
-> ${usedPrefix}sponsor
-> ${usedPrefix}getplugin
-> ${usedPrefix}getfile
-> ${usedPrefix}saveplugin 
-> ${usedPrefix}deleteplugin
-> ${usedPrefix}nome <testo>
-> ${usedPrefix}bio <testo>
-────────────────
- cescobot
-`;
+        > ${usedPrefix}impostanome
+        > ${usedPrefix}resettanome
+        > ${usedPrefix}gestisci @
+        > ${usedPrefix}setgruppi
+        > ${usedPrefix}aggiungigruppi @
+        > ${usedPrefix}resetgruppi @
+        > ${usedPrefix}setpp (immagine)
+        > ${usedPrefix}banuser @
+        > ${usedPrefix}unbanuser @
+        > ${usedPrefix}blockuser @
+        > ${usedPrefix}unblockuser @
+        > ${usedPrefix}pulizia (+)
+        > ${usedPrefix}out
+        > ${usedPrefix}prefisso (?)
+        > ${usedPrefix}resettaprefisso
+        > ${usedPrefix}godmode {autoadmin}
+        > ${usedPrefix}azzera @
+        > ${usedPrefix}aggiungi (numero messaggi) @
+        > ${usedPrefix}rimuovi (numero messaggi) @
+        > ${usedPrefix}flood
+        > ${usedPrefix}nuke
+        > ${usedPrefix}addowner @
+        > ${usedPrefix}delowner @
+        > ${usedPrefix}downall
+        > ${usedPrefix}upall
+        > ${usedPrefix}blocklist
+        > ${usedPrefix}banlist
+        > ${usedPrefix}bigtag
+        > ${usedPrefix}lock
+        > ${usedPrefix}safe
+        > ${usedPrefix}sponsor
+        > ${usedPrefix}getplugin
+        > ${usedPrefix}getfile
+        > ${usedPrefix}saveplugin 
+        > ${usedPrefix}deleteplugin
+        > ${usedPrefix}nome <testo>
+        > ${usedPrefix}bio <testo>
+        > ${usedPrefix}eval (codice) - Esegue codice JavaScript
+        > ${usedPrefix}exec (comando) - Esegue comandi di sistema
+        ────────────────
+         cescobot
+        `;
 
   // Prende il nome del bot dalle impostazioni
   let botName = global.db.data.nomedelbot || " cescobot ";
@@ -74,7 +82,7 @@ let handler = async (m, { conn, usedPrefix }) => {
   await conn.sendMessage(m.chat, {
     text: ownerMenu,
     contextInfo: {
-      mentionedJid: conn.parseMention(wm),
+      mentionedJid: conn.parseMention(ownerMenu),
       forwardingScore: 1,
       isForwarded: true,
       forwardedNewsletterMessageInfo: {
