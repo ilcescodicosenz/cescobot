@@ -483,7 +483,7 @@ setInterval(async () => {
   if (stopped === 'close' || !conn || !conn.user) return;
   const _uptime = process.uptime() * 1000;
   const uptime = clockString(_uptime);
-  const bio = `𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲-𝐁𝐨𝐭 𝐨𝐧𝐥𝐢𝐧𝐞 𝐝𝐚 ${uptime} `
+  const bio = `cescobot 𝐨𝐧𝐥𝐢𝐧𝐞 𝐝𝐚 ${uptime} `
   await conn.updateProfileStatus(bio).catch((_) => _);
 }, 60000);
 function clockString(ms) {
