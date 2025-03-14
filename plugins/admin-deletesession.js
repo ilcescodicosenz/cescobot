@@ -1,71 +1,32 @@
 import { readdirSync, unlinkSync, existsSync, promises as fsPromises } from 'fs';
 import path from 'path';
 
-async function handler(message, { conn, usedPrefix, text }) {
-  if (global.owner.user.jid !== conn.user.jid) {
-    await conn.sendMessage(message.chat, { text: "*Utilizza questo comando direttamente nel numero principale del Bot.*" }, { quoted: message });
+async function handler(message, { conn, usedPrefix, isGroupAdmins }) {
+  // Verifica se chi ha inviato il comando è il proprietario del robot o un amministratore del gruppo
+  if (global.owner.user.jid !== message.sender && !isGroupAdmins) {
+    // Se non è il proprietario o un amministratore, invia un messaggio di errore
+    await conn.sendMessage(message.chat, { text: "*Questo comando può essere utilizzato solo dal proprietario del bot o dagli amministratori del gruppo.*" }, { quoted: message });
     return;
   }
 
-  const sessionsFolder = './Sessioni/';
-
-  if (text) {
-    // Cancellazione selettiva
-    const filesToDelete = text.split(' ');
-    let deletedFilesCount = 0;
-    for (const file of filesToDelete) {
-      if (file.match(/^[a-zA-Z0-9_\-]+\.json$/)) {
-        const filePath = path.join(sessionsFolder, file);
-        if (existsSync(filePath)) {
-          await fsPromises.unlink(filePath);
-          deletedFilesCount++;
-        }
-      }
-    }
-    if (deletedFilesCount === 0) {
-      await conn.sendMessage(message.chat, { text: "ⓘ Nessun file di sessione trovato o eliminato." }, { quoted: message });
-    } else {
-      await conn.sendMessage(message.chat, { text: `ⓘ Sono stati eliminati ${deletedFilesCount} file di sessione.` }, { quoted: message });
-    }
-  } else {
-    // Richiedi conferma per la cancellazione completa
-    const confirmationMessage = {
-      text: "Sei sicuro di voler cancellare tutte le sessioni? (Questo escluderà tutti i sub bot)",
-      footer: "Questa azione è irreversibile.",
-      buttons: [
-        { buttonId: `${usedPrefix}confirm_del_sessions`, buttonText: { displayText: 'Sì' }, type: 1 },
-        { buttonId: `${usedPrefix}cancel_del_sessions`, buttonText: { displayText: 'No' }, type: 1 },
-      ],
-      headerType: 1
-    };
-    await conn.sendMessage(message.chat, confirmationMessage, { quoted: message });
-
-    conn.handlers['confirm_del_sessions'] = async () => {
-      delete conn.handlers['confirm_del_sessions'];
-      delete conn.handlers['cancel_del_sessions'];
-      await deleteSessions(message, conn, sessionsFolder);
-    };
-
-    conn.handlers['cancel_del_sessions'] = async () => {
-      delete conn.handlers['confirm_del_sessions'];
-      delete conn.handlers['cancel_del_sessions'];
-      await conn.sendMessage(message.chat, { text: "Cancellazione annullata." }, { quoted: message });
-    };
-  }
-}
-
-async function deleteSessions(message, conn, sessionsFolder) {
+  // Invia un messaggio per dire che sta iniziando la cancellazione
   await conn.sendMessage(message.chat, { text: "ⓘ Ripristino delle sessioni in corso..." }, { quoted: message });
 
+  const sessionsFolder = './Sessioni/'; // Percorso della cartella delle sessioni
+
   try {
+    // Verifica se la cartella delle sessioni esiste
     if (!existsSync(sessionsFolder)) {
+      // Se non esiste, invia un messaggio di errore
       await conn.sendMessage(message.chat, { text: "*La cartella Sessioni non esiste o e' vuota.*" }, { quoted: message });
       return;
     }
 
+    // Legge il contenuto della cartella delle sessioni
     const files = await fsPromises.readdir(sessionsFolder);
     let deletedFilesCount = 0;
 
+    // Cancella ogni file nella cartella (tranne uno chiamato "creds.json")
     for (const file of files) {
       if (file !== 'creds.json') {
         await fsPromises.unlink(path.join(sessionsFolder, file));
@@ -73,6 +34,7 @@ async function deleteSessions(message, conn, sessionsFolder) {
       }
     }
 
+    // Invia un messaggio con il numero di file cancellati
     if (deletedFilesCount === 0) {
       await conn.sendMessage(message.chat, { text: "ⓘ Le sessioni sono vuote ‼️" }, { quoted: message });
     } else {
@@ -80,10 +42,12 @@ async function deleteSessions(message, conn, sessionsFolder) {
     }
 
   } catch (error) {
+    // Se si verifica un errore, lo mostra nella console e invia un messaggio di errore
     console.error('Errore', error);
     await conn.sendMessage(message.chat, { text: "Errore" }, { quoted: message });
   }
 
+  // Invia un messaggio speciale per dire che le sessioni sono state ripristinate.
   let botName = global.db.data.settings.botName || ' cescobot ';
   let vcard = 'BEGIN:VCARD\n' +
         'VERSION:1.0\n' +
@@ -111,9 +75,12 @@ async function deleteSessions(message, conn, sessionsFolder) {
   await conn.sendMessage(message.chat, { text: "ⓘ Ora sarai in grado di leggere i messaggi del bot" }, { quoted: locationMessage });
 }
 
-handler.help = ['del_reg_in_session_owner', 'deletession <nomefile1.json> <nomefile2.json>', 'ds <nomefile1.json> <nomefile2.json>', 'clearallsession'];
+// Configurazione del comando
+handler.help = ['del_reg_in_session_owner'];
 handler.tags = ['admin'];
 handler.command = /^(deletession|ds|clearallsession)$/i;
-handler.owner = true;
+handler.owner = false; // Imposta a false, poiché ora anche gli amministratori possono usarlo
+handler.group = true; // Imposta a true, poiché il comando è valido solo nei gruppi
+handler.admin = true; // Imposta a true, per verificare se l'utente è un amministratore del gruppo
 
 export default handler;
